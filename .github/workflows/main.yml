@@ -2,8 +2,8 @@ name: 🚀 Deploy website on push
 on: 
   push:
       tags:
-        - beta/*
-        - release/*
+        - beta/**
+        - release/**
   
 jobs:
   web-deploy:
