@@ -11,6 +11,6 @@ jobs:
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
-        server: ftp.samkirkland.com
-        username: myFtpUserName
+        server: winweb20.servicehoster.ch
+        username: h208686_dta24_bs
         password: ${{ secrets.SEVIS_SECRET }}
