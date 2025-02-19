@@ -17,6 +17,16 @@ jobs:
       run: echo "Running workflow for tag ${{ github.ref_name }}"
     
     - name: 📂 Sync files into release if release/ tag
+      if: startsWith(github.ref_name, 'release/')
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server: winweb20.servicehoster.ch
+        username: h208686_dta24_bs
+        password: ${{ secrets.SEVIS_SECRET }}
+        local-dir: ./public/
+        server-dir: ./
+        
+    - name: Sync files into beta if beta/ tag
       if: startsWith(github.ref_name, 'beta/')
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
@@ -24,11 +34,4 @@ jobs:
         username: h208686_dta24_bs
         password: ${{ secrets.SEVIS_SECRET }}
         local-dir: ./public/
-    - name: Sync files into beta if beta/ tag
-      if: startsWith(github.ref_name, 'release/')
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      with:
-        server: winweb20.servicehoster.ch
-        username: h208686_dta24_bs
-        password: ${{ secrets.SEVIS_SECRET }}
-        local-dir: ./beta/
+        server-dir: ./beta/
