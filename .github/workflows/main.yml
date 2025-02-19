@@ -1,8 +1,8 @@
 on: 
   push:
       tags:
-        - 'beta/*'
-        - 'release/*'
+        - '/beta/*'
+        - '/release/*'
   
 name: 🚀 Deploy website on push
 jobs:
