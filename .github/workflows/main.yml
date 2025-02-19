@@ -14,3 +14,4 @@ jobs:
         server: winweb20.servicehoster.ch
         username: h208686_dta24_bs
         password: ${{ secrets.SEVIS_SECRET }}
+        local-dir: ./public/
