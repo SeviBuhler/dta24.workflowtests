@@ -35,3 +35,45 @@ jobs:
         password: ${{ secrets.SEVIS_SECRET }}
         local-dir: ./public/
         server-dir: ./beta/
+  
+  create-release:
+    name: 🚀 Create release
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v4
+
+    - name: extract version from tag
+      id: extract_version
+      run: |
+        TAG_NAME="${{ github.ref_name}}"
+        # Entferne das Präfix "release/" oder "beta/"
+        VERSION="${TAG_NAME#*/}"
+        echo "Version: $VERSION"
+        echo "Version=$VERSION" >> $GITHUB_OUTPUT
+
+        # Prüfe ob es sich um eine Beta-Version handelt
+        if [[ $TAG_NAME == beta/* ]]; then
+          echo "is_beta=true" >> $GITHUB_OUTPUT
+        else
+          echo "is_beta=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: 📂 create ZIP-Archive
+      run: |
+        VERSION="${{ steps.extract_version.outputs.version }}"
+        cd public
+        zip -r ../DevOps-Demo-${VERSION}.zip .
+        cd ..
+        ls -la DevOps-Demo-${VERSION}.zip
+        
+    - name: Create Release
+      uses: ncipollo/release-action@v1
+      with:
+        name: ${{ steps.extract_version.outputs.version }}
+        tag: ${{ github.ref }}
+        artifacts: "DevOps-Demo-${{ steps.extract_version.outputs.version }}.zip"
+        prerelease: ${{ steps.extract_version.outputs.is_beta == "true" }}
+        allowUpdates: true
+        token: ${{ secrets.GITHUB_TOKEN }}
+
