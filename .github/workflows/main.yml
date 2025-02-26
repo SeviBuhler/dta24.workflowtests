@@ -50,7 +50,7 @@ jobs:
         # Entferne das Präfix "release/" oder "beta/"
         VERSION="${TAG_NAME#*/}"
         echo "Version: $VERSION"
-        echo "Version=$VERSION" >> $GITHUB_OUTPUT
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
 
         # Prüfe ob es sich um eine Beta-Version handelt
         if [[ $TAG_NAME == beta/* ]]; then
@@ -73,7 +73,7 @@ jobs:
         name: ${{ steps.extract_version.outputs.version }}
         tag: ${{ github.ref }}
         artifacts: "DevOps-Demo-${{ steps.extract_version.outputs.version }}.zip"
-        prerelease: ${{ steps.extract_version.outputs.is_beta == "true" }}
+        prerelease: ${{ steps.extract_version.outputs.is_beta == 'true' }}
         allowUpdates: true
         token: ${{ secrets.GITHUB_TOKEN }}
 
