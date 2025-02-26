@@ -4,6 +4,9 @@ on:
       tags:
         - beta/**
         - release/**
+
+permissions:
+  contents: write
   
 jobs:
   web-deploy:
